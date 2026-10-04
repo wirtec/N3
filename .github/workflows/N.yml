@@ -54,7 +54,7 @@ jobs:
           MAX_ITEMS: ${{ github.event.inputs.limit || '40' }}
           MAX_TRANSLATE_CHARS: "6000"
           MAX_IMAGES: "12"
-        run: python scraper/main.py
+        run: python scraper/main.py --no-translate
 
       - name: Commit & push changes
         run: |

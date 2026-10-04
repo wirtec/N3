@@ -1,4 +1,11 @@
 {
-  "generated_at": "2026-09-05T06:10:51+00:00",
-  "months": []
+  "generated_at": "2026-10-04T17:39:39+00:00",
+  "months": [
+    {
+      "month": "2026-09",
+      "file": "archive/news-2026-09.json",
+      "count": 17,
+      "archived_at": "2026-10-04T17:38:58+00:00"
+    }
+  ]
 }

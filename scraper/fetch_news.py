@@ -457,11 +457,34 @@ def parse_description_links(desc_html: str) -> list[dict]:
     return links
 
 
+FEED_RETRIES = int(os.environ.get("FEED_RETRIES", "5"))
+
+
 def fetch_feed(url: str) -> list[dict]:
     log("fetching feed:", url)
-    res = SESSION.get(url, timeout=TIMEOUT)
-    res.raise_for_status()
-    parsed = feedparser.parse(res.content)
+    rss_headers = {
+        "Accept": "application/rss+xml, application/xml;q=0.9, text/xml;q=0.8, */*;q=0.5",
+    }
+    last_err: Exception | None = None
+    content = None
+    for attempt in range(1, FEED_RETRIES + 1):
+        try:
+            res = SESSION.get(url, timeout=TIMEOUT, headers=rss_headers)
+            if res.status_code in (429, 500, 502, 503, 504):
+                raise requests.HTTPError(f"{res.status_code} for {url}", response=res)
+            res.raise_for_status()
+            content = res.content
+            break
+        except requests.RequestException as e:
+            last_err = e
+            wait = min(60, 5 * 2 ** (attempt - 1))  # 5, 10, 20, 40, 60
+            log(f"feed attempt {attempt}/{FEED_RETRIES} failed: {e} -> retry in {wait}s")
+            if attempt < FEED_RETRIES:
+                time.sleep(wait)
+    if content is None:
+        raise RuntimeError(f"feed unavailable after {FEED_RETRIES} attempts: {last_err}")
+
+    parsed = feedparser.parse(content)
     items: list[dict] = []
     for e in parsed.entries:
         link = e.get("link")
@@ -556,7 +579,11 @@ def main() -> int:
     started = time.time()
     existing = load_existing(OUTPUT)
     existing_items = {i["id"]: i for i in existing.get("items", []) if "id" in i}
-    feed_items = fetch_feed(FEED_URL)
+    try:
+        feed_items = fetch_feed(FEED_URL)
+    except Exception as e:
+        log(f"WARNING: feed fetch failed, keeping existing data: {e}")
+        return 0
 
     new_entries = [e for e in feed_items if e["id"] not in existing_items]
     log(f"new items to scrape: {len(new_entries)} (limit {MAX_NEW_PER_RUN})")

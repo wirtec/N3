@@ -1,82 +1,17 @@
-name: TechPulse News Scraper
-
-on:
-  schedule:
-    # Every hour at minute 7 (UTC)
-    - cron: "7 * * * *"
-    # First day of each month at 00:02 UTC -> archive previous month
-    - cron: "2 0 1 * *"
-  workflow_dispatch:
-    inputs:
-      limit:
-        description: "Max new items to process"
-        required: false
-        default: "40"
-      archive:
-        description: "Force archive current news.json (true/false)"
-        required: false
-        default: "false"
-
+name: Unzip project
+on: workflow_dispatch
 permissions:
   contents: write
-
-concurrency:
-  group: news-scraper
-  cancel-in-progress: false
-
 jobs:
-  scrape:
+  unzip:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-          cache-dependency-path: scraper/requirements.txt
-
-      - name: Install dependencies
-        run: pip install -r scraper/requirements.txt
-
-      - name: Archive previous month (monthly cron)
-        if: github.event.schedule == '2 0 1 * *' || github.event.inputs.archive == 'true'
-        run: python scraper/main.py --archive --limit 0
-
-      - name: Scrape feed (hourly)
-        if: github.event.schedule != '2 0 1 * *'
-        env:
-          MAX_ITEMS: ${{ github.event.inputs.limit || '40' }}
-          MAX_TRANSLATE_CHARS: "6000"
-          MAX_IMAGES: "12"
-        run: python scraper/main.py --no-translate
-
-      - name: Commit & push changes
-        run: |
-          git config user.name "techpulse-bot"
-          git config user.email "techpulse-bot@users.noreply.github.com"
-          git add data/
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore(news): update $(date -u +'%Y-%m-%d %H:%M UTC') [skip ci]"
-            git pull --rebase origin ${{ github.ref_name }} || true
-            git push
-          fi
-
-      # Optional: push the fresh dataset into a deployed API (set NEWS_SYNC_URL + NEWS_SYNC_TOKEN secrets)
-      - name: Sync to deployed API
-        if: ${{ vars.NEWS_SYNC_URL != '' }}
-        env:
-          NEWS_SYNC_URL: ${{ vars.NEWS_SYNC_URL }}
-          NEWS_SYNC_TOKEN: ${{ secrets.NEWS_SYNC_TOKEN }}
-        run: |
-          curl -sS -X POST "$NEWS_SYNC_URL/api/sync" \
-            -H "Authorization: Bearer $NEWS_SYNC_TOKEN" \
-            -H "Content-Type: application/json" \
-            --data-binary @data/news.json || echo "sync skipped/failed"
+      - uses: actions/checkout@v4
+      - run: |
+          unzip -o news-scraper-python.zip -x '.github/*' '*__pycache__*'
+          rm news-scraper-python.zip
+          git config user.name "darkness-bot"
+          git config user.email "darkness-bot@users.noreply.github.com"
+          git add -A
+          git commit -m "Extract project"
+          git push

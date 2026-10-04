@@ -1,137 +1,124 @@
-import type { Lang } from "./news";
+export type Lang = "en" | "fa";
 
 export const dict = {
   en: {
     dir: "ltr",
-    siteName: "TechPulse",
-    tagline: "Live technology headlines · bilingual · auto-updated hourly",
-    nav: { home: "Latest", archive: "Archive", api: "API & Docs", sources: "Sources" },
-    switchLang: "فارسی",
-    breaking: "LIVE",
+    brand: "NOVA",
+    brandSub: "TECH NEWS",
+    tagline: "Live technology news from Google News — decoded, extracted & translated every hour.",
+    latest: "Latest transmissions",
     featured: "Top story",
-    latest: "Latest headlines",
-    moreStories: "More stories",
+    search: "Search the galaxy of news…",
     readMore: "Read full story",
-    readTime: (m: number) => `${m} min read`,
-    photos: (n: number) => `${n} photos`,
-    images: "Photo gallery",
-    coverage: "Related coverage",
-    coverageHint: "Other outlets covering this story (from the Google News feed)",
-    originalSource: "Open original article",
-    googleNews: "Google News link",
-    translated: "Machine-translated to Persian",
-    original: "Original text",
-    by: "By",
+    source: "Source",
+    original: "Open original article",
+    related: "Related coverage",
+    gallery: "Images from this story",
     published: "Published",
-    updated: "Updated",
-    noContent: "Full text could not be extracted for this article. Use the original link below.",
-    search: "Search headlines…",
-    searchResults: (n: number, q: string) => `${n} results for “${q}”`,
-    empty: "No news yet. Run the scraper (python scraper/main.py) to populate data/news.json.",
+    scraped: "Indexed",
+    by: "By",
+    home: "Home",
+    archive: "Archive",
+    api: "API & Docs",
+    noResults: "No signals found. Try another search.",
+    updated: "Last update",
+    items: "stories",
+    lang: "فارسی",
+    backHome: "Back to feed",
+    showBoth: "Show both languages",
+    persianVersion: "Persian version",
+    englishVersion: "English version",
+    notTranslated: "Translation not available yet.",
+    noText: "Full text could not be extracted — read it on the source website.",
     archiveTitle: "Monthly archive",
-    archiveIntro: "Each month the GitHub Action rotates news.json into a dated archive file.",
-    currentMonth: "Current month",
-    items: (n: number) => `${n} articles`,
-    backHome: "← Back to latest",
-    apiTitle: "API & Documentation",
-    footer: "Data: Google News RSS (Technology). Content belongs to the respective publishers. Persian text is machine translated.",
-    sourcesTitle: "Top sources",
-    stats: { articles: "Articles", sources: "Sources", images: "Images", month: "Month" },
-    filterAll: "All",
-    page: "Page",
-    prev: "Newer",
-    next: "Older",
-    monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-    ago: {
-      now: "just now",
-      m: (n: number) => `${n}m ago`,
-      h: (n: number) => `${n}h ago`,
-      d: (n: number) => `${n}d ago`,
-    },
+    archiveSub: "Every month the feed is rotated into its own file: archive/news-YYYY-MM.json",
+    currentMonth: "Current month (news.json)",
+    noArchives: "No archives yet. The first rotation happens on the 1st of next month.",
+    sources: "Sources",
+    all: "All",
+    poweredBy: "Scraped with Python · Scheduled by GitHub Actions · Served by Next.js + PostgreSQL",
+    liveEndpoint: "Live JSON endpoint",
+    hourly: "Auto-refresh: every hour",
+    imagesCount: "images",
+    docsTitle: "API & Guide",
   },
   fa: {
     dir: "rtl",
-    siteName: "تک‌پالس",
-    tagline: "تیترهای زنده فناوری · دوزبانه · به‌روزرسانی خودکار هر ساعت",
-    nav: { home: "تازه‌ها", archive: "آرشیو", api: "API و راهنما", sources: "منابع" },
-    switchLang: "English",
-    breaking: "زنده",
+    brand: "نوا",
+    brandSub: "اخبار فناوری",
+    tagline: "اخبار زنده‌ی فناوری از گوگل‌نیوز — هر ساعت واکشی، استخراج و ترجمه می‌شود.",
+    latest: "آخرین سیگنال‌ها",
     featured: "خبر برگزیده",
-    latest: "آخرین تیترها",
-    moreStories: "خبرهای بیشتر",
-    readMore: "خواندن کامل خبر",
-    readTime: (m: number) => `${m} دقیقه مطالعه`,
-    photos: (n: number) => `${n} تصویر`,
-    images: "گالری تصاویر",
-    coverage: "پوشش‌های مرتبط",
-    coverageHint: "رسانه‌های دیگری که این خبر را پوشش داده‌اند (از فید گوگل‌نیوز)",
-    originalSource: "مشاهده خبر اصلی",
-    googleNews: "لینک گوگل‌نیوز",
-    translated: "ترجمه ماشینی به فارسی",
-    original: "متن اصلی",
-    by: "نویسنده:",
+    search: "در کهکشان اخبار جستجو کنید…",
+    readMore: "خواندن خبر کامل",
+    source: "منبع",
+    original: "مشاهده‌ی خبر اصلی",
+    related: "پوشش‌های مرتبط",
+    gallery: "تصاویر این خبر",
     published: "انتشار",
-    updated: "به‌روزرسانی",
-    noContent: "متن کامل این خبر قابل استخراج نبود. از لینک اصلی در پایین استفاده کنید.",
-    search: "جست‌وجو در تیترها…",
-    searchResults: (n: number, q: string) => `${n} نتیجه برای «${q}»`,
-    empty: "هنوز خبری وجود ندارد. اسکریپت را اجرا کنید (python scraper/main.py) تا data/news.json ساخته شود.",
+    scraped: "ایندکس",
+    by: "نویسنده",
+    home: "خانه",
+    archive: "آرشیو",
+    api: "API و راهنما",
+    noResults: "سیگنالی پیدا نشد. عبارت دیگری را امتحان کنید.",
+    updated: "آخرین به‌روزرسانی",
+    items: "خبر",
+    lang: "English",
+    backHome: "بازگشت به فید",
+    showBoth: "نمایش هر دو زبان",
+    persianVersion: "نسخه‌ی فارسی",
+    englishVersion: "نسخه‌ی انگلیسی",
+    notTranslated: "ترجمه هنوز آماده نیست.",
+    noText: "متن کامل استخراج نشد — آن را در سایت منبع بخوانید.",
     archiveTitle: "آرشیو ماهانه",
-    archiveIntro: "هر ماه، گیت‌هاب اکشن فایل news.json را به یک فایل آرشیو با تاریخ ماه منتقل می‌کند.",
-    currentMonth: "ماه جاری",
-    items: (n: number) => `${n} خبر`,
-    backHome: "→ بازگشت به تازه‌ها",
-    apiTitle: "API و مستندات",
-    footer: "منبع داده: فید RSS گوگل‌نیوز (فناوری). محتوا متعلق به ناشران اصلی است. متن فارسی ترجمه ماشینی است.",
-    sourcesTitle: "منابع برتر",
-    stats: { articles: "خبر", sources: "منبع", images: "تصویر", month: "ماه" },
-    filterAll: "همه",
-    page: "صفحه",
-    prev: "جدیدتر",
-    next: "قدیمی‌تر",
-    monthNames: ["ژانویه", "فوریه", "مارس", "آوریل", "مه", "ژوئن", "ژوئیه", "اوت", "سپتامبر", "اکتبر", "نوامبر", "دسامبر"],
-    ago: {
-      now: "همین حالا",
-      m: (n: number) => `${n} دقیقه پیش`,
-      h: (n: number) => `${n} ساعت پیش`,
-      d: (n: number) => `${n} روز پیش`,
-    },
+    archiveSub: "هر ماه فید در فایل جداگانه‌ای ذخیره می‌شود: archive/news-YYYY-MM.json",
+    currentMonth: "ماه جاری (news.json)",
+    noArchives: "هنوز آرشیوی وجود ندارد. اولین چرخش در اول ماه بعد انجام می‌شود.",
+    sources: "منابع",
+    all: "همه",
+    poweredBy: "واکشی با پایتون · زمان‌بندی با GitHub Actions · نمایش با Next.js و PostgreSQL",
+    liveEndpoint: "اندپوینت JSON زنده",
+    hourly: "به‌روزرسانی خودکار: هر ساعت",
+    imagesCount: "تصویر",
+    docsTitle: "API و راهنما",
   },
 } as const;
 
-export type Dict = (typeof dict)[Lang];
-export const t = (lang: Lang): Dict => dict[lang];
+export type Dict = (typeof dict)["en"];
 
-export function formatDate(iso: string, lang: Lang, withTime = true) {
+export function t(lang: Lang): Dict {
+  return dict[lang] as unknown as Dict;
+}
+
+export function pick(lang: Lang, v: { en: string | null; fa: string | null } | undefined | null): string {
+  if (!v) return "";
+  return (lang === "fa" ? v.fa || v.en : v.en || v.fa) ?? "";
+}
+
+export function formatDate(iso: string | null | undefined, lang: Lang): string {
+  if (!iso) return "";
   const d = new Date(iso);
-  if (isNaN(d.getTime())) return iso;
+  if (Number.isNaN(d.getTime())) return "";
   try {
     return new Intl.DateTimeFormat(lang === "fa" ? "fa-IR" : "en-US", {
       dateStyle: "medium",
-      ...(withTime ? { timeStyle: "short" } : {}),
-      timeZone: lang === "fa" ? "Asia/Tehran" : "UTC",
+      timeStyle: "short",
     }).format(d);
   } catch {
     return d.toISOString();
   }
 }
 
-export function timeAgo(iso: string, lang: Lang) {
-  const d = new Date(iso).getTime();
-  if (isNaN(d)) return "";
-  const diff = Math.max(0, Date.now() - d);
-  const m = Math.floor(diff / 60000);
-  const a = dict[lang].ago;
-  if (m < 1) return a.now;
-  if (m < 60) return a.m(m);
-  const h = Math.floor(m / 60);
-  if (h < 24) return a.h(h);
-  return a.d(Math.floor(h / 24));
-}
-
-export function monthLabel(month: string, lang: Lang) {
-  const [y, m] = month.split("-").map(Number);
-  if (!y || !m) return month;
-  const name = dict[lang].monthNames[m - 1] ?? month;
-  return lang === "fa" ? `${name} ${y}` : `${name} ${y}`;
+export function timeAgo(iso: string | null | undefined, lang: Lang): string {
+  if (!iso) return "";
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.max(1, Math.round(diff / 60000));
+  const rtf = new Intl.RelativeTimeFormat(lang === "fa" ? "fa" : "en", { numeric: "auto" });
+  if (mins < 60) return rtf.format(-mins, "minute");
+  const hrs = Math.round(mins / 60);
+  if (hrs < 24) return rtf.format(-hrs, "hour");
+  const days = Math.round(hrs / 24);
+  if (days < 30) return rtf.format(-days, "day");
+  return rtf.format(-Math.round(days / 30), "month");
 }

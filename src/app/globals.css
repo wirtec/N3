@@ -1,0 +1,226 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Vazirmatn:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-void: #05060b;
+  --color-ink: #0b0e17;
+  --color-panel: #10141f;
+  --color-line: #1e2536;
+  --color-neon: #22e3ff;
+  --color-violet: #8b5cf6;
+  --color-magenta: #f43fa2;
+  --color-lime: #a3ff5b;
+  --color-amber: #ffb547;
+  --font-display: "Space Grotesk", "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+  --font-fa: "Vazirmatn", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-void);
+  color: #e6e9f2;
+  font-family: var(--font-body);
+  background-image:
+    radial-gradient(1200px 600px at 10% -10%, rgba(34, 227, 255, 0.12), transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, rgba(139, 92, 246, 0.16), transparent 60%),
+    radial-gradient(700px 400px at 50% 100%, rgba(244, 63, 162, 0.08), transparent 60%);
+  background-attachment: fixed;
+}
+
+html[lang="fa"] body {
+  font-family: var(--font-fa);
+}
+html[lang="fa"] .font-display {
+  font-family: var(--font-fa);
+  letter-spacing: 0;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* ---- Cyber grid background ---- */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(34, 227, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 227, 255, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent 90%);
+}
+
+/* ---- Glass panel ---- */
+.glass {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* ---- Neon gradient text ---- */
+.text-neon-gradient {
+  background: linear-gradient(90deg, #22e3ff 0%, #8b5cf6 50%, #f43fa2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- Card hover glow ---- */
+.card {
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s, box-shadow 0.3s;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(34, 227, 255, 0.5), rgba(139, 92, 246, 0.4), rgba(244, 63, 162, 0.4));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px -20px rgba(34, 227, 255, 0.35), 0 10px 30px -15px rgba(139, 92, 246, 0.4);
+}
+.card:hover::before {
+  opacity: 1;
+}
+.card img {
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.card:hover img {
+  transform: scale(1.05);
+}
+
+/* ---- Ticker ---- */
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes ticker-rtl {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(50%);
+  }
+}
+.ticker-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: ticker 90s linear infinite;
+}
+[dir="rtl"] .ticker-track {
+  animation-name: ticker-rtl;
+}
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* ---- Pulse dot ---- */
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 63, 162, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(244, 63, 162, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 63, 162, 0);
+  }
+}
+.pulse-dot {
+  animation: pulse-ring 1.6s infinite;
+}
+
+/* ---- Scanline shimmer on hero ---- */
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(400%);
+  }
+}
+.scanline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 25%;
+  background: linear-gradient(to bottom, transparent, rgba(34, 227, 255, 0.08), transparent);
+  animation: scan 7s linear infinite;
+  pointer-events: none;
+}
+
+/* ---- Prose ---- */
+.prose-news p {
+  margin-bottom: 1.1em;
+  line-height: 1.9;
+}
+.prose-news {
+  font-size: 1.05rem;
+  color: #cfd5e3;
+}
+html[lang="fa"] .prose-news {
+  font-size: 1.1rem;
+  line-height: 2.1;
+}
+
+/* ---- Fade-up stagger ---- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0e17;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#22e3ff, #8b5cf6);
+  border-radius: 999px;
+}
+
+code {
+  font-family: var(--font-mono);
+}
+pre {
+  direction: ltr;
+  text-align: left;
+}
